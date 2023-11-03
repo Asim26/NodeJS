@@ -31,9 +31,16 @@ const editCourse = async(id, payload) => {
     return result;    
 }
 
+const deleteCourse = async(id) => {
+    const course = await Course.findByIdAndDelete(id);
+    console.log('Delete Course ==>', course);
+    return course;
+}
+
 module.exports = {
     createCourse,
     getCourses,
     getCourse,
-    editCourse
+    editCourse,
+    deleteCourse
 };

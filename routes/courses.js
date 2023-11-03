@@ -74,18 +74,20 @@ router.put('/:id', async(req, res) => {
 
 })
 
-router.delete('/:id', (req, rsp) => {
+router.delete('/:id', async(req, rsp) => {
     //Look up the course
     //If not exist, return 404
-    const course = courses.find(c => c.id === parseInt(req.params.id))
+
+    let allCourses = await coursesQueries.getCourses()
+    const course = allCourses.find(c => parseInt(c._id) === parseInt(req.params.id))
+
     if (!course) return rsp.status(404).send('The course with given ID was not found')
 
     //Delete 
-    const index = courses.indexOf(course);
-    courses.splice(index, 1)
+    let deletedCourse = await coursesQueries.deleteCourse(req.params.id)
 
     //Return the same course
-    rsp.send(course)
+    rsp.send(deletedCourse)
 })
 
 
