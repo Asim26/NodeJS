@@ -19,7 +19,7 @@ router.post('/', (req, res) => {
     const { error } = validateCourse(req.body);
     let errMsg = [];
 
-    error.details.map((err)=>{
+    error?.details.map((err)=>{
         errMsg.push(err?.message)
     })
 
