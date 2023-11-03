@@ -10,8 +10,9 @@ router.get('/', async(req, rsp) => {
     rsp.send(allCourses)
 });
 
-router.get('/:id', (req, rsp) => {
-    const course = courses.find(c => c.id === parseInt(req.params.id))
+router.get('/:id', async(req, rsp) => {
+    let course = await coursesQueries.getCourse(req.params.id)
+
     if (!course) return rsp.status(404).send('The course with given ID was not found')
     rsp.send(course)
 });

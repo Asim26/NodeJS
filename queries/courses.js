@@ -1,21 +1,30 @@
 const mongoose = require('../db_connection')
 const coursesSchema = require('../schema/courses')
 
-const Course = mongoose.model('Course', coursesSchema.createCourseSchema);    
+const Course = mongoose.model('Course', coursesSchema.createCourseSchema);
 
-const createCourse = async(payload) => {
+const createCourse = async (payload) => {
     const course = new Course(payload);
     const result = await course.save();
-    console.log('Course Saved ==>',result)
+    console.log('Course Saved ==>', result)
 }
 
-const getCourses = async() => {
+const getCourses = async () => {
     const courses = await Course.find();
-    console.log('Get courses ===>',courses)
+    console.log('Get courses ===>', courses)
     return courses;
+}
+
+const getCourse = async (id) => {
+    const course = await Course.find({
+        _id: id,
+    })
+    console.log('Get course ===>', course)
+    return course;
 }
 
 module.exports = {
     createCourse,
     getCourses,
+    getCourse,
 };
