@@ -17,7 +17,13 @@ router.get('/:id', (req, rsp) => {
 
 router.post('/', (req, res) => {
     const { error } = validateCourse(req.body);
-    if (error) return res.status(400).send(error.details);
+    let errMsg = [];
+
+    error.details.map((err)=>{
+        errMsg.push(err?.message)
+    })
+
+    if (error) return res.status(400).send(errMsg);
 
     const course = {
         name: req.body.name,
