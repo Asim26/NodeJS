@@ -2,14 +2,14 @@
 const courses = require('./routes/courses')
 const home = require('./routes/home')
 
-const express = require("express")
+const express = require("express");
 
 //Create app instance using express
 const app = express();
 
 //For SSR views
-app.set('view engine','pug');
-app.set('views','./views'); //default
+app.set('view engine', 'pug');
+app.set('views', './views'); //default
 
 app.use(express.json());
 
