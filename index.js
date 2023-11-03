@@ -1,4 +1,7 @@
 //Import
+const coursesQueries = require('./queries/courses')
+coursesQueries.getCourses()
+
 const courses = require('./routes/courses')
 const home = require('./routes/home')
 

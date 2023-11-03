@@ -5,8 +5,9 @@ const Joi = require("joi")
 
 const coursesQueries = require('../queries/courses')
 
-router.get('/', (req, rsp) => {
-    rsp.send(courses)
+router.get('/', async(req, rsp) => {
+    let allCourses = await coursesQueries.getCourses()
+    rsp.send(allCourses)
 });
 
 router.get('/:id', (req, rsp) => {
