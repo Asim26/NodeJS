@@ -1,4 +1,4 @@
-const {courses} = require('../utils')
+const { courses } = require('../utils')
 const express = require('express')
 const router = express.Router();
 const Joi = require("joi")
@@ -17,13 +17,15 @@ router.get('/:id', (req, rsp) => {
 
 router.post('/', (req, res) => {
     const { error } = validateCourse(req.body);
-    let errMsg = [];
 
-    error?.details.map((err)=>{
-        errMsg.push(err?.message)
-    })
+    if (error) {
+        let errMsg = [];
 
-    if (error) return res.status(400).send(errMsg);
+        error?.details.map((err) => {
+            errMsg.push(err?.message)
+        })
+        return res.status(400).send(errMsg);
+    }
 
     const course = {
         name: req.body.name,
@@ -78,7 +80,7 @@ function validateCourse(course) {
         isPublished: Joi.boolean(),
         tags: Joi.array(),
     }
-    return Joi.validate(course, schema, { abortEarly: false})
+    return Joi.validate(course, schema, { abortEarly: false })
 }
 
 module.exports = router;
