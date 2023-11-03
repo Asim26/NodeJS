@@ -23,8 +23,17 @@ const getCourse = async (id) => {
     return course;
 }
 
+const editCourse = async(id, payload) => {
+    const result = await Course.findByIdAndUpdate(id,{
+        $set: payload
+    })
+    console.log('Course Update ==>',result);
+    return result;    
+}
+
 module.exports = {
     createCourse,
     getCourses,
     getCourse,
+    editCourse
 };

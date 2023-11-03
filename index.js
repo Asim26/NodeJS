@@ -1,6 +1,5 @@
 //Import
 const coursesQueries = require('./queries/courses')
-coursesQueries.getCourse(`6544e6ac0dd517969e02df5a`)
 
 const courses = require('./routes/courses')
 const home = require('./routes/home')
