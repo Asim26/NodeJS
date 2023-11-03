@@ -26,18 +26,19 @@ router.post('/', (req, res) => {
         })
         return res.status(400).send(errMsg);
     }
-
-    const course = {
-        name: req.body.name,
-        author: req.body.author,
-        tags: req.body.tags,
-        isPublished: req.body.isPublished
-    };
-
-    coursesQueries.createCourse(course);
-
-    courses.push(course);
-    res.send(course);
+    else{
+        const course = {
+            name: req.body.name,
+            author: req.body.author,
+            tags: req.body.tags,
+            isPublished: req.body.isPublished
+        };
+    
+        coursesQueries.createCourse(course);
+    
+        courses.push(course);
+        res.send(course);
+    }
 });
 
 router.put('/:id', (req, res) => {
