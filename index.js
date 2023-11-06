@@ -1,6 +1,5 @@
 //Import
 const coursesQueries = require('./queries/courses')
-coursesQueries.deleteCourse(`6544ddb76f33217f677e01f5`)
 
 const courses = require('./routes/courses')
 const home = require('./routes/home')

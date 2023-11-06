@@ -4,6 +4,8 @@ const router = express.Router();
 const Joi = require("joi")
 
 const coursesQueries = require('../queries/courses')
+var ObjectId = require('mongoose').Types.ObjectId;
+var validator = require('validator');
 
 router.get('/', async(req, rsp) => {
     let allCourses = await coursesQueries.getCourses()
@@ -11,10 +13,14 @@ router.get('/', async(req, rsp) => {
 });
 
 router.get('/:id', async(req, rsp) => {
-    let course = await coursesQueries.getCourse(req.params.id)
-
-    if (!course) return rsp.status(404).send('The course with given ID was not found')
-    rsp.send(course)
+    if (validator.isMongoId(req.params.id)){
+        let course = await coursesQueries.getCourse(req.params.id)
+        
+        if (!course) return rsp.status(404).send('The course with given ID was not found')
+        rsp.send(course)
+    }else{
+        rsp.status(404).send('Invalid ID')
+    }
 });
 
 router.post('/', (req, res) => {
