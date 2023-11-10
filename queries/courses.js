@@ -20,7 +20,7 @@ const getCourse = async (id) => {
         _id: id,
     })
     console.log('Get course ===>', course)
-    return course;
+    return course?.length>0 ?course : false;
 }
 
 const editCourse = async(id, payload) => {

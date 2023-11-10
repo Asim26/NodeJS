@@ -4,7 +4,6 @@ const router = express.Router();
 const Joi = require("joi")
 
 const coursesQueries = require('../queries/courses')
-var ObjectId = require('mongoose').Types.ObjectId;
 var validator = require('validator');
 
 router.get('/', async(req, rsp) => {
@@ -56,6 +55,7 @@ router.put('/:id', async(req, res) => {
     if (validator.isMongoId(req.params.id)){
         let allCourses = await coursesQueries.getCourses()
         const course = allCourses.find(c => parseInt(c._id) === parseInt(req.params.id))
+        console.log('course =====>',course)
     
         if (!course) return rsp.status(404).send('The course with given ID was not found')
     
@@ -69,14 +69,18 @@ router.put('/:id', async(req, res) => {
             error?.details.map((err) => {
                 errMsg.push(err?.message)
             })
-    
+            
             return res.status(400).send(errMsg)
         }
         else{
             //Update course
             //Return the updated course
             let updatedCourse = await coursesQueries.editCourse(req.params.id,req.body)
-            res.send(updatedCourse)
+            if(updatedCourse !== null){
+                res.send(updatedCourse)
+            }else{
+                res.status(404).send("The given id doesn`t exist")
+            }
         }
     }else{
         res.status(404).send('Invalid ID')
@@ -101,8 +105,6 @@ router.delete('/:id', async(req, rsp) => {
     }else{
         rsp.status(404).send('Invalid ID')
     }
-
-    
 })
 
 
