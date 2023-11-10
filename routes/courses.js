@@ -87,16 +87,22 @@ router.delete('/:id', async(req, rsp) => {
     //Look up the course
     //If not exist, return 404
 
-    let allCourses = await coursesQueries.getCourses()
-    const course = allCourses.find(c => parseInt(c._id) === parseInt(req.params.id))
+    if (validator.isMongoId(req.params.id)){
+        let allCourses = await coursesQueries.getCourses()
+        const course = allCourses.find(c => parseInt(c._id) === parseInt(req.params.id))
+    
+        if (!course) return rsp.status(404).send('The course with given ID was not found')
+    
+        //Delete 
+        let deletedCourse = await coursesQueries.deleteCourse(req.params.id)
+    
+        //Return the same course
+        rsp.send(deletedCourse)
+    }else{
+        rsp.status(404).send('Invalid ID')
+    }
 
-    if (!course) return rsp.status(404).send('The course with given ID was not found')
-
-    //Delete 
-    let deletedCourse = await coursesQueries.deleteCourse(req.params.id)
-
-    //Return the same course
-    rsp.send(deletedCourse)
+    
 })
 
 
