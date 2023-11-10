@@ -53,31 +53,34 @@ router.put('/:id', async(req, res) => {
     //Look up the course
     //If not exist, return 404
 
-    let allCourses = await coursesQueries.getCourses()
-    const course = allCourses.find(c => parseInt(c._id) === parseInt(req.params.id))
-
-    if (!course) return rsp.status(404).send('The course with given ID was not found')
-
-    //Validate
-    //If not valid, return 400 - Bad request
-    const { error } = validateCourse(req.body);
-
-    if (error) {
-        let errMsg = [];
-
-        error?.details.map((err) => {
-            errMsg.push(err?.message)
-        })
-
-        return res.status(400).send(errMsg)
-    }
-    else{
-        //Update course
-        //Return the updated course
-        let updatedCourse = await coursesQueries.editCourse(req.params.id,req.body)
-        res.send(updatedCourse)
-    }
-
+    if (validator.isMongoId(req.params.id)){
+        let allCourses = await coursesQueries.getCourses()
+        const course = allCourses.find(c => parseInt(c._id) === parseInt(req.params.id))
+    
+        if (!course) return rsp.status(404).send('The course with given ID was not found')
+    
+        //Validate
+        //If not valid, return 400 - Bad request
+        const { error } = validateCourse(req.body);
+    
+        if (error) {
+            let errMsg = [];
+    
+            error?.details.map((err) => {
+                errMsg.push(err?.message)
+            })
+    
+            return res.status(400).send(errMsg)
+        }
+        else{
+            //Update course
+            //Return the updated course
+            let updatedCourse = await coursesQueries.editCourse(req.params.id,req.body)
+            res.send(updatedCourse)
+        }
+    }else{
+        res.status(404).send('Invalid ID')
+    }  
 })
 
 router.delete('/:id', async(req, rsp) => {
