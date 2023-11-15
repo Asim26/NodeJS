@@ -1,5 +1,5 @@
-const {User, validateUser, createUser} = require('../queries/users');
-const {getUsers} = require('../queries/users')
+const {User, validateUser, createUser} = require('../model/users');
+const {getUsers} = require('../model/users')
 const express = require('express');
 const router = express.Router();
 

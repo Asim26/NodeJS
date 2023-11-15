@@ -1,5 +1,5 @@
 //Import
-const coursesQueries = require('./queries/courses')
+const coursesQueries = require('./model/courses')
 
 const courses = require('./routes/courses')
 const users = require('./routes/users')

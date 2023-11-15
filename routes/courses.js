@@ -3,7 +3,7 @@ const express = require('express')
 const router = express.Router();
 const Joi = require("joi")
 
-const coursesQueries = require('../queries/courses')
+const coursesQueries = require('../model/courses')
 var validator = require('validator');
 
 router.get('/', async(req, rsp) => {
