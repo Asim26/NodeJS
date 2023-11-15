@@ -2,18 +2,23 @@ const { courses } = require('../utils')
 const express = require('express')
 const router = express.Router();
 const Joi = require("joi")
-
-const coursesQueries = require('../model/courses')
+const {
+    getCourses,
+    getCourse, 
+    createCourse, 
+    editCourse, 
+    deleteCourse
+} = require('../model/courses');
 var validator = require('validator');
 
 router.get('/', async(req, rsp) => {
-    let allCourses = await coursesQueries.getCourses()
+    let allCourses = await getCourses()
     rsp.send(allCourses)
 });
 
 router.get('/:id', async(req, rsp) => {
     if (validator.isMongoId(req.params.id)){
-        let course = await coursesQueries.getCourse(req.params.id)
+        let course = await getCourse(req.params.id)
         
         if (!course) return rsp.status(404).send('The course with given ID was not found')
         rsp.send(course)
@@ -41,7 +46,7 @@ router.post('/', (req, res) => {
             isPublished: req.body.isPublished
         };
     
-        coursesQueries.createCourse(course);
+        createCourse(course);
     
         courses.push(course);
         res.send(course);
@@ -53,7 +58,7 @@ router.put('/:id', async(req, res) => {
     //If not exist, return 404
 
     if (validator.isMongoId(req.params.id)){
-        let allCourses = await coursesQueries.getCourses()
+        let allCourses = await getCourses()
         const course = allCourses.find(c => parseInt(c._id) === parseInt(req.params.id))
         console.log('course =====>',course)
     
@@ -75,7 +80,7 @@ router.put('/:id', async(req, res) => {
         else{
             //Update course
             //Return the updated course
-            let updatedCourse = await coursesQueries.editCourse(req.params.id,req.body)
+            let updatedCourse = await editCourse(req.params.id,req.body)
             if(updatedCourse !== null){
                 res.send(updatedCourse)
             }else{
@@ -92,13 +97,13 @@ router.delete('/:id', async(req, rsp) => {
     //If not exist, return 404
 
     if (validator.isMongoId(req.params.id)){
-        let allCourses = await coursesQueries.getCourses()
+        let allCourses = await getCourses()
         const course = allCourses.find(c => parseInt(c._id) === parseInt(req.params.id))
     
         if (!course) return rsp.status(404).send('The course with given ID was not found')
     
         //Delete 
-        let deletedCourse = await coursesQueries.deleteCourse(req.params.id)
+        let deletedCourse = await deleteCourse(req.params.id)
     
         //Return the same course
         rsp.send(deletedCourse)

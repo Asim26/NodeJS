@@ -1,7 +1,7 @@
 const mongoose = require('../db_connection')
-const coursesSchema = require('../schema/courses')
+const {createCourseSchema} = require('../schema/courses')
 
-const Course = mongoose.model('Course', coursesSchema.createCourseSchema);
+const Course = mongoose.model('Course', createCourseSchema);
 
 const createCourse = async (payload) => {
     const course = new Course(payload);
