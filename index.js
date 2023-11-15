@@ -2,6 +2,7 @@
 const coursesQueries = require('./queries/courses')
 
 const courses = require('./routes/courses')
+const users = require('./routes/users')
 const home = require('./routes/home')
 
 const express = require("express");
@@ -16,6 +17,7 @@ app.set('views', './views'); //default
 app.use(express.json());
 
 app.use('/api/courses', courses);
+app.use('/api/users', users);
 app.use('/', home);
 
 const port = process.env.PORT || 3000;

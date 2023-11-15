@@ -26,7 +26,7 @@ const getCourse = async (id) => {
 const editCourse = async(id, payload) => {
     const result = await Course.findByIdAndUpdate(id,{
         $set: payload
-    })
+    },{new: true})
     console.log('Course Update ==>',result);
     return result;    
 }
