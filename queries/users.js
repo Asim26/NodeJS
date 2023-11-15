@@ -7,9 +7,13 @@ const User = mongoose.model('User', createUserSchema);
 const createUser = async(payload) => {
     let user = new User(payload)
     let newUser = await user.save()
-    console.log('new user',newUser)
+    return newUser;
+}
 
-    return newUser
+const getUsers = async() => {
+    const allUsers = await User.find();
+    console.log('Get allUsers ===>', allUsers)
+    return allUsers;
 }
 
 const validateUser = (user) =>{
@@ -25,4 +29,5 @@ module.exports = {
     User,
     createUser,
     validateUser,
+    getUsers,
 };

@@ -1,6 +1,12 @@
 const {User, validateUser, createUser} = require('../queries/users');
+const {getUsers} = require('../queries/users')
 const express = require('express');
 const router = express.Router();
+
+router.get('/', async(req, rsp)=>{
+    let allUsers = await getUsers()
+    rsp.send(allUsers)
+})
 
 router.post('/', async(req, res) => {
     const { error } = validateUser(req.body);
