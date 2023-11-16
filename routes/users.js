@@ -1,8 +1,6 @@
-const { User, validateUser, createUser } = require('../model/users');
-const { getUsers } = require('../model/users')
+const { User, validateUser, createUser, getUsers } = require('../model/users');
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcrypt');
 const { hashedPassword } = require('../helpers');
 
 const saltRounds = 10
@@ -38,7 +36,9 @@ router.post('/', async (req, res) => {
         newUser.password = encryptedPassword;
 
         newUser = await newUser.save();
-        res.send(newUser)
+
+        const token = newUser.generateAuthToken();
+        res.header('x-auth-token', token).send(newUser)
     }
 });
 

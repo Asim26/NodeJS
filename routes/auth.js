@@ -3,8 +3,6 @@ const router = express.Router();
 const Joi = require("joi")
 const { User } = require('../model/users');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const config = require('config');
 
 router.post('/', async (req, rsp) => {
     const { error } = validate(req.body);
@@ -23,7 +21,7 @@ router.post('/', async (req, rsp) => {
         const validPassword = await bcrypt.compare(req.body.password, user.password);
         if (!validPassword) return rsp.status(400).send('Invalid email or password.')
 
-        const token = jwt.sign({ _id: user._id }, config.get('jwtPrivateKey'));
+        const token = user.generateAuthToken();
         rsp.send(token)
     }
 })
