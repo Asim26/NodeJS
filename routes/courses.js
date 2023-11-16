@@ -10,8 +10,9 @@ const {
     deleteCourse
 } = require('../model/courses');
 var validator = require('validator');
+const auth = require('../middlewares/auth')
 
-router.get('/', async(req, rsp) => {
+router.get('/',auth , async(req, rsp) => {
     let allCourses = await getCourses()
     rsp.send(allCourses)
 });
