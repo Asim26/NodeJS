@@ -1,10 +1,16 @@
 //Import
+const config = require('config');
 const courses = require('./routes/courses')
 const users = require('./routes/users')
 const auth = require('./routes/auth')
 const home = require('./routes/home')
 
 const express = require("express");
+
+if (!config.get('jwtPrivateKey')) {
+    console.error('FATAL ERROR: jwtPrivateKey is not defined.');
+    process.exit()
+}
 
 //Create app instance using express
 const app = express();
