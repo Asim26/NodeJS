@@ -10,7 +10,8 @@ const {
     deleteCourse
 } = require('../model/courses');
 var validator = require('validator');
-const auth = require('../middlewares/auth')
+const auth = require('../middlewares/auth');
+const admin = require('../middlewares/admin');
 
 router.get('/',auth , async(req, rsp) => {
     let allCourses = await getCourses()
@@ -93,7 +94,7 @@ router.put('/:id', async(req, res) => {
     }  
 })
 
-router.delete('/:id', async(req, rsp) => {
+router.delete('/:id', [auth, admin] ,async(req, rsp) => {
     //Look up the course
     //If not exist, return 404
 
